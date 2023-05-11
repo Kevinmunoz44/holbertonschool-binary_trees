@@ -15,5 +15,5 @@ return (0);
 if (node->left == NULL && node->right == NULL && node->left->right == NULL){
 return (1);
 }
-return (0);
+return 
 }
