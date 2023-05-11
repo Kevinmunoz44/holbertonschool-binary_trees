@@ -12,8 +12,9 @@ if (node == NULL)
 {
 return (0);
 }
-if (node->left == NULL && node->right == NULL && node->left->right == NULL){
+if (node->left == NULL && node->right == NULL && node->left->right == NULL)
+{
 return (1);
 }
-return 
+return (0);
 }
