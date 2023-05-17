@@ -1,62 +1,78 @@
 #include "binary_trees.h"
-
 /**
- * _binary_tree_height - height of the tree
- * @tree: the tree
- * Return: 0;
- */
-size_t _binary_tree_height(const binary_tree_t *tree)
+* binary_tree_height - height of tree
+* @tree: root node of binary tree
+* Return: height of tree
+*/
+size_t binary_tree_height(const binary_tree_t *tree)
 {
-        int r_height, l_height;
-
-        if (!tree)
-                return (0);
-        r_height = _binary_tree_height(tree->right);
-        l_height = _binary_tree_height(tree->left);
-        return (1 + ((r_height >= l_height) ? r_height: l_height));
-}
+	size_t height_left;
+	size_t height_right;
 
 
-/**
- * _binary_tree_balance - balance the tree
- * @tree: the binary tree
- * Return: 0;
- */
-int _binary_tree_balance(const binary_tree_t *tree)
-{
-        if (!tree)
-                return (0);
-        return (_binary_tree_height(tree->left) - _binary_tree_height(tree->right));
+	if (tree == NULL)
+		return (0);
+
+	height_left = binary_tree_height(tree->left);
+	height_left++;
+	height_right = binary_tree_height(tree->right);
+	height_right++;
+	if (height_left > height_right)
+		return (height_left);
+	else
+		return (height_right);
 }
 
 /**
- * sub_tree_perfect - calculate sub tree
- * @tree: the binary tree
- * Return: 0;
+ * binary_tree_leaves - count number of leaves of tree
+ * @tree: root node of tree
+ * Return: number of leaves
  */
-int sub_tree_perfect(const binary_tree_t *tree)
+size_t binary_tree_leaves(const binary_tree_t *tree)
 {
-        if (tree && !tree->right & !tree->left)
-                return (1);
+	size_t right;
+	size_t leaves;
+	size_t left;
 
-        if (tree && tree->right && tree->left)
-                return (1 && sub_tree_perfect(tree->left)
-                && sub_tree_perfect(tree->right));
-        return (0);
+	if (tree == NULL)
+		return (0);
+
+	if (!(tree->right) && !(tree->left))
+		return (1);
+
+	right = binary_tree_leaves(tree->left);
+	left = binary_tree_leaves(tree->right);
+	leaves = right + left;
+	return (leaves);
 }
 
 /**
- * binary_tree_is_perfect - perfect binary
- * @tree: binary tree
- * Return: 0;
+ * binary_tree_is_perfect - checks for perfect tree
+ * @tree: root node of tree
+ * Return: 1 if perfect, 0 if not
  */
 int binary_tree_is_perfect(const binary_tree_t *tree)
 {
-        if (!tree)
-                return (0);
+	size_t num_leaves = 0;
+	size_t height = 0;
+	size_t count;
+	size_t pow = 1;
 
-        if (_binary_tree_balance(tree) != 0)
-                return (0);
+	if (tree == NULL)
+		return (0);
 
-        return (sub_tree_perfect(tree->left) && sub_tree_perfect(tree->right));
+	height = binary_tree_height(tree);
+	num_leaves = binary_tree_leaves(tree);
+
+	count = 1;
+	while (count < height)
+	{
+		pow = 2 * pow;
+		count++;
+	}
+
+	if (num_leaves == pow)
+		return (1);
+	else
+		return (0);
 }
